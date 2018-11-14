@@ -11,6 +11,8 @@ pygame.init()
 clock = pygame.time.Clock()
 
 # define game screen
+WIDTH = 640
+HEIGHT = 480
 screen = pygame.display.set_mode((640, 480))
 
 # set screen title
@@ -38,8 +40,13 @@ BASE_SPEED = 5
 speed = BASE_SPEED
 
 # End Game Scene
-def gameOver():
-    #print game over message here
+def gameOver(screen, score ):
+    font = pygame.font.SysFont("Arial", 40)
+    text = font.render("Game Over", True, WHITE)
+    text_rect = text.get_rect()
+    text_x = screen.get_width() / 2 - text_rect.width / 2
+    text_y = screen.get_height() / 2 - text_rect.height / 2
+    screen.blit(text, [text_x, text_y])
     pygame.display.flip()
 
 # main game loop
@@ -111,6 +118,17 @@ while running:
 
     # draw the food
     pygame.draw.rect(screen, GREEN, Rect(foodPosition[0], foodPosition[1],20,20))
+
+    # test end game condition #1: snake out of bounds
+    if snakePosition[0] > WIDTH or snakePosition[0] < 0:
+        gameOver(screen, score)
+    if snakePosition[1] > HEIGHT or snakePosition[1] <0:
+        gameOver(screen, score)
+
+    # test end game condition #2: snake hits itself
+    for block in snakeSegments[1:]:
+        if snakePosition[0] == block[0] and snakePosition[1] == block[1]:
+            gameOver(screen, score)
 
     # update display
     pygame.display.flip()
