@@ -83,7 +83,21 @@ while running:
 
     # add the new snake head and pop the tail
     snakeSegments.insert(0, list(snakePosition))
-    snakeSegments.pop()
+
+    # eat food if detected collision and add to the tail
+    # else pop the tail
+    if snakePosition[0] == foodPosition[0] and snakePosition[1] == foodPosition[1]:
+        foodSpawned = 0
+    else:
+        snakeSegments.pop()
+
+    # respawn food if all eaten
+    if foodSpawned == 0:
+        x = random.randrange(1,32) * 20
+        y = random.randrange(1,24) * 20
+        foodPosition = [int(x), int(y)]
+        foodSpawned = 1
+        score += 1
 
     # draw background
     screen.fill(BLACK)
@@ -94,6 +108,9 @@ while running:
 
     # draw the snake head
     pygame.draw.rect(screen, RED, Rect(snakePosition[0], snakePosition[1],20,20))
+
+    # draw the food
+    pygame.draw.rect(screen, GREEN, Rect(foodPosition[0], foodPosition[1],20,20))
 
     # update display
     pygame.display.flip()
