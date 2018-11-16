@@ -75,6 +75,7 @@ while running:
             if event.key == pygame.K_f:
                 ball_velocity = (ball_velocity * 2)
 
+
     # very simple AI
     y1 = ball_pos[1]
     y2 = ball_pos[1]
