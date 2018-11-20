@@ -13,18 +13,11 @@ green = 0, 0, 255
 
 #initialize some modules
 pygame.init()
-pygame.mixer.init()
 
 #window setup
 window_size = (800, 600)
 screen = pygame.display.set_mode(window_size)
 pygame.display.set_caption("Pong")
-
-
-#text setup
-rallyText = pygame.font.SysFont("Arial", 36)
-rally = 0
-rallyRender = rallyText.render(str(rally), 1, black, white)
 
 #image loading
 paddle1 = pygame.image.load("Images/paddle.png")
@@ -34,10 +27,6 @@ bg = pygame.image.load("Images/bg.png")
 
 #game variables
 running = True
-
-#score variables
-score1 = 0
-score2 = 0
 
 #position/physics variables
 x1 = 5
@@ -68,8 +57,6 @@ while running:
             running = False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_r:
-                score1 = 0
-                score2 = 0
                 ball_velocity = pygame.math.Vector2(random.randint(-10, 11), random.randint(-10, 11))
                 ball_pos = pygame.math.Vector2(385, 285)
             if event.key == pygame.K_f:
@@ -89,14 +76,10 @@ while running:
         ball_velocity[1] = (ball_velocity[1] * -1)
 
     if ball_pos[0] > window_size[0]:
-        score2 += 1
-        rally = 0
         ball_velocity = pygame.math.Vector2(random.randint(-10, 11), random.randint(-10, 11))
         ball_pos = pygame.math.Vector2(385, 285)
 
     if ball_pos[0] < 0:
-        score1 += 1
-        rally = 0
         ball_velocity = pygame.math.Vector2(random.randint(-10, 11), random.randint(-10, 11))
         ball_pos = pygame.math.Vector2(385, 285)
 
@@ -105,21 +88,14 @@ while running:
     #New Collision Detection from /u/edbluetooth
 
     if (0 < int(ball_pos[0]) <=30) and (y1 - 45 < int(ball_pos[1]) <= y1 + 45):
-        rally += 1
         ball_velocity = (ball_velocity * -1)
         ball_velocity[0] = random.randint(1, 11)
         ball_velocity[1] = random.randint(-10, 11)
 
     if (750 < int(ball_pos[0]) <= 800 - 30) and (y2 - 45 < int(ball_pos[1]) <= y2 + 45):
-        rally += 1
         ball_velocity = (ball_velocity * -1)
         ball_velocity[0] = random.randint(-11, -1)
         ball_velocity[1] = random.randint(-10, 11)
-
-    #text
-    rallyRender = rallyText.render(str(rally), 4, black)
-    score1Render = rallyText.render(str(score1), 4, black)
-    score2Render = rallyText.render(str(score2), 4, black)
 
     #clear the screen
     screen.fill(white)
@@ -129,9 +105,6 @@ while running:
     screen.blit(paddle1, (x1, y1))
     screen.blit(paddle2, (x2, y2))
     screen.blit(ball, ball_pos)
-    screen.blit(rallyRender, (420, 550))
-    screen.blit(score1Render, (420, 10))
-    screen.blit(score2Render, (360, 10))
 
     #render it
     pygame.display.flip()

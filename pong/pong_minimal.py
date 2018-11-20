@@ -13,18 +13,11 @@ green = 0, 0, 255
 
 #initialize some modules
 pygame.init()
-pygame.mixer.init()
 
 #window setup
 window_size = (800, 600)
 screen = pygame.display.set_mode(window_size)
 pygame.display.set_caption("Pong")
-
-
-#text setup
-rallyText = pygame.font.SysFont("Arial", 36)
-rally = 0
-rallyRender = rallyText.render(str(rally), 1, black, white)
 
 #image loading
 paddle1 = pygame.image.load("Images/paddle.png")
@@ -138,11 +131,6 @@ while running:
         ball_velocity[0] = random.randint(-11, -1)
         ball_velocity[1] = random.randint(-10, 11)
 
-    #text
-    rallyRender = rallyText.render(str(rally), 4, black)
-    score1Render = rallyText.render(str(score1), 4, black)
-    score2Render = rallyText.render(str(score2), 4, black)
-
     #clear the screen
     screen.fill(white)
 
@@ -151,9 +139,6 @@ while running:
     screen.blit(paddle1, (x1, y1))
     screen.blit(paddle2, (x2, y2))
     screen.blit(ball, ball_pos)
-    screen.blit(rallyRender, (420, 550))
-    screen.blit(score1Render, (420, 10))
-    screen.blit(score2Render, (360, 10))
 
     #render it
     pygame.display.flip()
